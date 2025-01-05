@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/main.out.dir/main.c.o CMakeFiles/main.out.dir/menu.c.o -o main.out  -lcurses /usr/lib/x86_64-linux-gnu/libform.so 
