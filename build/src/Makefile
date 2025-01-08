@@ -130,6 +130,54 @@ main.out/fast:
 	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/build
 .PHONY : main.out/fast
 
+client.o: client.c.o
+.PHONY : client.o
+
+# target to build an object file
+client.c.o:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/client.c.o
+.PHONY : client.c.o
+
+client.i: client.c.i
+.PHONY : client.i
+
+# target to preprocess a source file
+client.c.i:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/client.c.i
+.PHONY : client.c.i
+
+client.s: client.c.s
+.PHONY : client.s
+
+# target to generate assembly for a file
+client.c.s:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/client.c.s
+.PHONY : client.c.s
+
+game.o: game.c.o
+.PHONY : game.o
+
+# target to build an object file
+game.c.o:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/game.c.o
+.PHONY : game.c.o
+
+game.i: game.c.i
+.PHONY : game.i
+
+# target to preprocess a source file
+game.c.i:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/game.c.i
+.PHONY : game.c.i
+
+game.s: game.c.s
+.PHONY : game.s
+
+# target to generate assembly for a file
+game.c.s:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/game.c.s
+.PHONY : game.c.s
+
 main.o: main.c.o
 .PHONY : main.o
 
@@ -154,29 +202,53 @@ main.c.s:
 	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/main.c.s
 .PHONY : main.c.s
 
-menu.o: menu.c.o
-.PHONY : menu.o
+server.o: server.c.o
+.PHONY : server.o
 
 # target to build an object file
-menu.c.o:
-	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/menu.c.o
-.PHONY : menu.c.o
+server.c.o:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/server.c.o
+.PHONY : server.c.o
 
-menu.i: menu.c.i
-.PHONY : menu.i
+server.i: server.c.i
+.PHONY : server.i
 
 # target to preprocess a source file
-menu.c.i:
-	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/menu.c.i
-.PHONY : menu.c.i
+server.c.i:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/server.c.i
+.PHONY : server.c.i
 
-menu.s: menu.c.s
-.PHONY : menu.s
+server.s: server.c.s
+.PHONY : server.s
 
 # target to generate assembly for a file
-menu.c.s:
-	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/menu.c.s
-.PHONY : menu.c.s
+server.c.s:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/server.c.s
+.PHONY : server.c.s
+
+startmenu.o: startmenu.c.o
+.PHONY : startmenu.o
+
+# target to build an object file
+startmenu.c.o:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/startmenu.c.o
+.PHONY : startmenu.c.o
+
+startmenu.i: startmenu.c.i
+.PHONY : startmenu.i
+
+# target to preprocess a source file
+startmenu.c.i:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/startmenu.c.i
+.PHONY : startmenu.c.i
+
+startmenu.s: startmenu.c.s
+.PHONY : startmenu.s
+
+# target to generate assembly for a file
+startmenu.c.s:
+	cd /home/takac8/semestralka/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/main.out.dir/build.make src/CMakeFiles/main.out.dir/startmenu.c.s
+.PHONY : startmenu.c.s
 
 # Help Target
 help:
@@ -187,12 +259,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main.out"
+	@echo "... client.o"
+	@echo "... client.i"
+	@echo "... client.s"
+	@echo "... game.o"
+	@echo "... game.i"
+	@echo "... game.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... menu.o"
-	@echo "... menu.i"
-	@echo "... menu.s"
+	@echo "... server.o"
+	@echo "... server.i"
+	@echo "... server.s"
+	@echo "... startmenu.o"
+	@echo "... startmenu.i"
+	@echo "... startmenu.s"
 .PHONY : help
 
 
