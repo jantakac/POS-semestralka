@@ -8,6 +8,7 @@
 #include <ncurses.h>
 #include <string.h>
 #include "constants.h"
+#include "sockstruct.h"
 
 
 typedef struct Game Game;
@@ -17,8 +18,9 @@ void game_reset(Game *self);
 void game_destroy(Game *self);
 void game_move(Game *self);
 void game_logic(Game *self);
-bool game_isgameover(Game *self);
+int game_getgameover(Game *self);
 void game_gameloop(Game *self);
 void game_setkey(Game *self, char keytoset);
+SnakeData *game_getsnakedataptr(Game *self);
 char *game_generatemap(Game *self);
 #endif

@@ -92,7 +92,8 @@ src/CMakeFiles/main.out.dir/main.c.o: /home/takac8/semestralka/src/main.c \
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
- /home/takac8/semestralka/include/server.h \
  /home/takac8/semestralka/include/constants.h \
+ /home/takac8/semestralka/include/server.h \
  /home/takac8/semestralka/include/game.h \
+ /home/takac8/semestralka/include/sockstruct.h \
  /home/takac8/semestralka/include/server.h

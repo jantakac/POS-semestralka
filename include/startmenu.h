@@ -7,6 +7,8 @@
 #include <menu.h>
 #include <string.h>
 
+#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+
 typedef struct StartMenu StartMenu;
 void startmenu_init(StartMenu *self);
 StartMenu *startmenu_create();

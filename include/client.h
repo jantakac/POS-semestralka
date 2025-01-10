@@ -9,8 +9,8 @@
 #include <stdlib.h>
 #include <ncurses.h>
 #include <pthread.h>
-#include "server.h"
 #include "constants.h"
+#include "server.h"
 
 typedef struct Client Client;
 int client_connect(Client *self);

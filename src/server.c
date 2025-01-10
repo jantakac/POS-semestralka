@@ -5,23 +5,6 @@ struct Server {
     int listen_socket, connect_socket;
 };
 
-
-
-void server_test() {
-    
-    /*
-    int recvKey;
-    for (int i = 0; i < 15; ++i) {
-        read(self->connect_socket, &recvInt, sizeof(int)); // subtract 1 for the null
-        printf("%d\n", recvInt);
-    }
-    write(self->connect_socket, &inter, sizeof(int));
-    printf("Hello message sent\n");
-    printf("%d\n", recvInt);
-    */
-    
-}
-
 void server_init(Server *self) {
     struct sockaddr_in address;
     int opt = 1;
@@ -68,7 +51,6 @@ void server_destroy(Server *self) {
 }
 
 
-
 void server_newgame(Server *self) {
     puts("server new game");
     self->game = game_create();
@@ -79,11 +61,16 @@ void server_newgame(Server *self) {
         perror("map send error");
     }
     char keytosend;
-    while (!game_isgameover(self->game)) {
+    while (game_getgameover(self->game) == 0) {
         read(self->connect_socket, &keytosend, sizeof(char));
         game_setkey(self->game, keytosend);
         game_logic(self->game);
+        write(self->connect_socket, game_getsnakedataptr(self->game), sizeof(SnakeData));
+        if (game_getgameover(self->game) == 1) {
+            break;
+        }
     }
+    
     game_destroy(self->game);
 }
 

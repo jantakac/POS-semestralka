@@ -2,7 +2,9 @@
 
 struct Client {
     char map[HEIGHT * WIDTH + 1];
+    SnakeData snakedata;
     WINDOW *snake_win;
+    WINDOW *score_win;
     int client_socket;
 };
 
@@ -45,9 +47,12 @@ void client_destroy(Client *self) {
 
 void *snakekey_send(void *arg) {
     Client *self = (Client *)arg;
+    puts("posielame");
     int ch;
-    char sendkey;
-    while ((ch = getch()) != 'x') {
+    char sendkey = 'u';    
+    while (1) {
+        ch = getch();
+        mvwprintw(self->score_win, 0, 30, "%d", ch);
         switch(ch) {
             case KEY_LEFT:
                 sendkey = 'l';
@@ -65,6 +70,12 @@ void *snakekey_send(void *arg) {
                 sendkey = 'd';
                 write(self->client_socket, &sendkey, sizeof(char));
                 break;
+            default:
+                break;
+        }
+        usleep(200000);
+        if (self->snakedata.gameover > 0) {
+            break;
         }
     }
     return NULL;
@@ -72,43 +83,76 @@ void *snakekey_send(void *arg) {
 
 void *snake_draw(void *arg) {
     Client *self = (Client *)arg;
-    printf("kreslime");
+    puts("kreslime");
     initscr();
     cbreak();
     noecho();
     clear();
+    curs_set(0);
     refresh();
-    /*for (int i = 0; i < 10; ++i) {
-        clear();
-        usleep(200000);
-        printw("kreslim");
-        refresh();
-        usleep(200000);
-    }
-    clear();
-    printw(self->map);
-    refresh();*/
+    self->snake_win = newwin(HEIGHT, WIDTH, 1, 1);
+    keypad(stdscr, TRUE);
+    wclear(self->snake_win);
 
+    // border okolo
+    WINDOW *border_win = newwin(HEIGHT + 2, WIDTH + 2, 0, 0);
+    wclear(border_win);
+    box(border_win, 0, 0);
+    wrefresh(border_win);
+    // endborder
+
+    self->score_win = newwin(3, WIDTH + 2, HEIGHT + 2, 0);
+    wclear(self->score_win);
+    wrefresh(self->score_win);
     
-    self->snake_win = newwin(HEIGHT, WIDTH, 0, 0);
-    box(self->snake_win, 0, 0);
-    while(1) {
-        wrefresh(self->snake_win);
-        usleep(200000);
+    for (int i = 0; i < WIDTH; ++i) {
+        for (int j = 0; j < HEIGHT; ++j) {
+            if (self->map[WIDTH * j + i] == 'X') {
+                mvwprintw(self->snake_win, j, i, "X");
+            }
+        }
     }
     
-    /*
-    wrefresh(self->snake_win);
-    keypad(self->snake_win, TRUE);
-    nodelay(self->snake_win, TRUE);
-    
-    char recvChar;
-    while (1) {
-        read(self->client_socket, &recvChar, sizeof(char));
-        box(self->snake_win, 0, 0);
+    self->snakedata.gameover = -1;
+    do {
+        read(self->client_socket, &self->snakedata, sizeof(SnakeData));
+        
+        mvwprintw(self->snake_win, self->snakedata.y, self->snakedata.x, "O");
+        for (int i = 0; i < self->snakedata.snaketail_len; ++i) {
+            mvwprintw(self->snake_win, self->snakedata.snaketail_y[i], self->snakedata.snaketail_x[i], "o");
+        }
+        mvwprintw(self->snake_win, self->snakedata.fruity, self->snakedata.fruitx, "*");
+
+
+        if (self->snakedata.gameover > 0) {
+            wclear(self->snake_win);
+            mvwprintw(self->snake_win, HEIGHT / 2, WIDTH / 2 - 5, "Game Over!");
+            mvwprintw(self->snake_win, HEIGHT / 2 + 1, WIDTH / 2 - 8, "Final score: %d", self->snakedata.score);
+            wrefresh(self->snake_win);
+            sleep(5);
+            break;
+        }
+
+        mvwprintw(self->score_win, 0, 1, "Score: %d", self->snakedata.score);
+        mvwprintw(self->score_win, 1, 1, "SnakeX: %d, SnakeY: %d", self->snakedata.x, self->snakedata.y);
+        wrefresh(self->score_win);
         wrefresh(self->snake_win);
         usleep(200000);
-    }*/
+
+
+
+        mvwprintw(self->snake_win, self->snakedata.y, self->snakedata.x, " ");
+        for (int i = 0; i < self->snakedata.snaketail_len; ++i) {
+            mvwprintw(self->snake_win, self->snakedata.snaketail_y[i], self->snakedata.snaketail_x[i], " ");
+        }
+
+    } while(self->snakedata.gameover == 0);
+    mvwprintw(self->score_win, 1, 0, "                              ");
+    wclear(self->snake_win);
+    delwin(border_win);
+    delwin(self->score_win);
+    delwin(self->snake_win);
+    endwin();
     return NULL;
 }
 
@@ -124,7 +168,6 @@ void client_newgame(Client *self) {
         server_newgame(server);
         server_destroy(server);
     } else {
-        //TODO: zmenit sleep na signaly
         puts("slapeme");
         sleep(2);
         if (client_connect(self) < 0) {
@@ -136,8 +179,8 @@ void client_newgame(Client *self) {
         printf("%s\n", self->map);
         pthread_t thread_draw;
         pthread_t thread_send;
-        pthread_create(&thread_draw, NULL, snakekey_send, self);
-        pthread_create(&thread_send, NULL, snake_draw, self);
+        pthread_create(&thread_draw, NULL, snake_draw, self);
+        pthread_create(&thread_send, NULL, snakekey_send, self);
         pthread_join(thread_draw, NULL);
         pthread_join(thread_send, NULL);
     }

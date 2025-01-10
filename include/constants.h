@@ -2,7 +2,7 @@
 #define CONSTANTS_H
 
 #define PORT 7771
-#define WIDTH 40
-#define HEIGHT 20
+#define WIDTH 80
+#define HEIGHT 40
 
 #endif

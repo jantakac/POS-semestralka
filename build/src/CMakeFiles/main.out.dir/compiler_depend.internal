@@ -110,9 +110,10 @@ src/CMakeFiles/main.out.dir/client.c.o
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h
- /home/takac8/semestralka/include/server.h
  /home/takac8/semestralka/include/constants.h
+ /home/takac8/semestralka/include/server.h
  /home/takac8/semestralka/include/game.h
+ /home/takac8/semestralka/include/sockstruct.h
 
 src/CMakeFiles/main.out.dir/game.c.o
  /home/takac8/semestralka/src/game.c
@@ -191,6 +192,7 @@ src/CMakeFiles/main.out.dir/game.c.o
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h
  /usr/include/strings.h
  /home/takac8/semestralka/include/constants.h
+ /home/takac8/semestralka/include/sockstruct.h
 
 src/CMakeFiles/main.out.dir/main.c.o
  /home/takac8/semestralka/src/main.c
@@ -304,9 +306,10 @@ src/CMakeFiles/main.out.dir/main.c.o
  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h
- /home/takac8/semestralka/include/server.h
  /home/takac8/semestralka/include/constants.h
+ /home/takac8/semestralka/include/server.h
  /home/takac8/semestralka/include/game.h
+ /home/takac8/semestralka/include/sockstruct.h
  /home/takac8/semestralka/include/server.h
 
 src/CMakeFiles/main.out.dir/server.c.o
@@ -406,6 +409,7 @@ src/CMakeFiles/main.out.dir/server.c.o
  /usr/include/x86_64-linux-gnu/bits/wchar.h
  /usr/include/unctrl.h
  /usr/include/curses.h
+ /home/takac8/semestralka/include/sockstruct.h
 
 src/CMakeFiles/main.out.dir/startmenu.c.o
  /home/takac8/semestralka/src/startmenu.c

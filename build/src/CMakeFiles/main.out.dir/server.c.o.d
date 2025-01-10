@@ -81,4 +81,4 @@ src/CMakeFiles/main.out.dir/server.c.o: \
  /usr/include/ncurses_dll.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h /usr/include/unctrl.h \
- /usr/include/curses.h
+ /usr/include/curses.h /home/takac8/semestralka/include/sockstruct.h

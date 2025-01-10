@@ -109,9 +109,10 @@ src/CMakeFiles/main.out.dir/client.c.o: /home/takac8/semestralka/src/client.c \
   /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
-  /home/takac8/semestralka/include/server.h \
   /home/takac8/semestralka/include/constants.h \
-  /home/takac8/semestralka/include/game.h
+  /home/takac8/semestralka/include/server.h \
+  /home/takac8/semestralka/include/game.h \
+  /home/takac8/semestralka/include/sockstruct.h
 
 src/CMakeFiles/main.out.dir/game.c.o: /home/takac8/semestralka/src/game.c \
   /usr/include/stdc-predef.h \
@@ -188,7 +189,8 @@ src/CMakeFiles/main.out.dir/game.c.o: /home/takac8/semestralka/src/game.c \
   /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
   /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
   /usr/include/strings.h \
-  /home/takac8/semestralka/include/constants.h
+  /home/takac8/semestralka/include/constants.h \
+  /home/takac8/semestralka/include/sockstruct.h
 
 src/CMakeFiles/main.out.dir/main.c.o: /home/takac8/semestralka/src/main.c \
   /usr/include/stdc-predef.h \
@@ -301,9 +303,10 @@ src/CMakeFiles/main.out.dir/main.c.o: /home/takac8/semestralka/src/main.c \
   /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
-  /home/takac8/semestralka/include/server.h \
   /home/takac8/semestralka/include/constants.h \
+  /home/takac8/semestralka/include/server.h \
   /home/takac8/semestralka/include/game.h \
+  /home/takac8/semestralka/include/sockstruct.h \
   /home/takac8/semestralka/include/server.h
 
 src/CMakeFiles/main.out.dir/server.c.o: /home/takac8/semestralka/src/server.c \
@@ -401,7 +404,8 @@ src/CMakeFiles/main.out.dir/server.c.o: /home/takac8/semestralka/src/server.c \
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
   /usr/include/unctrl.h \
-  /usr/include/curses.h
+  /usr/include/curses.h \
+  /home/takac8/semestralka/include/sockstruct.h
 
 src/CMakeFiles/main.out.dir/startmenu.c.o: /home/takac8/semestralka/src/startmenu.c \
   /usr/include/stdc-predef.h \
@@ -672,6 +676,8 @@ src/CMakeFiles/main.out.dir/startmenu.c.o: /home/takac8/semestralka/src/startmen
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
+
+/home/takac8/semestralka/include/sockstruct.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
 

@@ -62,4 +62,5 @@ src/CMakeFiles/main.out.dir/game.c.o: /home/takac8/semestralka/src/game.c \
  /usr/include/curses.h /usr/include/string.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/strings.h /home/takac8/semestralka/include/constants.h
+ /usr/include/strings.h /home/takac8/semestralka/include/constants.h \
+ /home/takac8/semestralka/include/sockstruct.h
