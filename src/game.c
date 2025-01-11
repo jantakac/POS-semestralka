@@ -3,10 +3,18 @@
 struct Game {
     char map[HEIGHT * WIDTH + 1];
 	SnakeData snakeData1;
+    int max_seconds;
+    int elapsed_time;
+    time_t start_time;
+    time_t current_time;
     char key;
 };
 
-void game_init(Game *self) {
+void game_init(Game *self, int max_seconds) {
+    self->max_seconds = max_seconds;
+    self->elapsed_time = 0;
+    time(&self->start_time);
+
     self->snakeData1.gameover = 0;
     self->snakeData1.score = 0;
     self->snakeData1.snaketail_len = 0;
@@ -22,9 +30,9 @@ void game_init(Game *self) {
     }
 }
 
-Game *game_create() {
+Game *game_create(int max_seconds) {
     Game *self = malloc(sizeof(Game));
-    game_init(self);
+    game_init(self, max_seconds);
     return self;
 }
 
@@ -70,7 +78,16 @@ void game_move(Game *self) {
 
 
 void game_logic(Game *self) {
+    
     game_move(self);
+
+    time(&self->current_time);
+    self->elapsed_time = (int)(self->current_time - self->start_time);
+    self->snakeData1.elapsed_time = self->elapsed_time;
+    // ak presiel cas
+    if (self->max_seconds != 0 && self->elapsed_time > self->max_seconds) {
+        self->snakeData1.gameover = 1;
+    }
     
     // ak je mimo mapy
     if (self->snakeData1.x < 0 || self->snakeData1.x >= WIDTH || self->snakeData1.y < 0 || self->snakeData1.y >= HEIGHT) {
@@ -105,13 +122,18 @@ int game_getgameover(Game *self) {
     return self->snakeData1.gameover;
 }
 
+SnakeData *game_getsnakedataptr(Game *self) {
+    return &self->snakeData1;
+}
+
 void game_setkey(Game *self, char keytoset) {
     self->key = keytoset;
 }
 
-SnakeData *game_getsnakedataptr(Game *self) {
-    return &self->snakeData1;
+void game_setelapsedtime(Game* self, int seconds) {
+    self->snakeData1.elapsed_time = seconds;
 }
+
 
 char *game_generatemap(Game *self) {
     puts("generatemap");

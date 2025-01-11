@@ -7,6 +7,7 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <unistd.h>
+#include <time.h>
 #include "constants.h"
 #include "game.h"
 

@@ -55,24 +55,29 @@ void *snakekey_send(void *arg) {
         mvwprintw(self->score_win, 0, 30, "%d", ch);
         switch(ch) {
             case KEY_LEFT:
-                sendkey = 'l';
-                write(self->client_socket, &sendkey, sizeof(char));
+                if (sendkey != 'r') {
+                    sendkey = 'l';
+                }
                 break;
             case KEY_RIGHT:
-                sendkey = 'r';
-                write(self->client_socket, &sendkey, sizeof(char));
+                if (sendkey != 'l') {
+                    sendkey = 'r';
+                }
                 break;
             case KEY_UP:
-                sendkey = 'u';
-                write(self->client_socket, &sendkey, sizeof(char));
+                if (sendkey != 'd') {
+                    sendkey = 'u';
+                }
                 break;
             case KEY_DOWN:
-                sendkey = 'd';
-                write(self->client_socket, &sendkey, sizeof(char));
+                if (sendkey != 'u') {
+                    sendkey = 'd';
+                }
                 break;
             default:
                 break;
         }
+        write(self->client_socket, &sendkey, sizeof(char));
         usleep(200000);
         if (self->snakedata.gameover > 0) {
             break;
@@ -92,6 +97,7 @@ void *snake_draw(void *arg) {
     refresh();
     self->snake_win = newwin(HEIGHT, WIDTH, 1, 1);
     keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
     wclear(self->snake_win);
 
     // border okolo
@@ -134,7 +140,7 @@ void *snake_draw(void *arg) {
         }
 
         mvwprintw(self->score_win, 0, 1, "Score: %d", self->snakedata.score);
-        mvwprintw(self->score_win, 1, 1, "SnakeX: %d, SnakeY: %d", self->snakedata.x, self->snakedata.y);
+        mvwprintw(self->score_win, 1, 1, "Time %d", self->snakedata.elapsed_time);
         wrefresh(self->score_win);
         wrefresh(self->snake_win);
         usleep(200000);
@@ -168,7 +174,7 @@ void client_newgame(Client *self) {
         server_newgame(server);
         server_destroy(server);
     } else {
-        puts("slapeme");
+        puts("waiting for server");
         sleep(2);
         if (client_connect(self) < 0) {
             perror("connection failed");

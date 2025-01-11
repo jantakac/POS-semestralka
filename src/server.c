@@ -53,7 +53,7 @@ void server_destroy(Server *self) {
 
 void server_newgame(Server *self) {
     puts("server new game");
-    self->game = game_create();
+    self->game = game_create(15);
     char *map = game_generatemap(self->game);
     puts("prvych 5 odoslanej mapy");
     printf("%s\n", map);

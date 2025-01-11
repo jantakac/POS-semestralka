@@ -11,6 +11,7 @@ typedef struct SnakeData {
 	int fruitx;
 	int fruity;
     int gameover;
+	int elapsed_time;
 } SnakeData;
 
 #endif
