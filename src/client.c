@@ -54,7 +54,6 @@ void *snakekey_send(void *arg) {
     char sendkey = 'u';    
     while (1) {
         ch = getch();
-        mvwprintw(self->score_win, 0, 30, "%d", ch);
         switch(ch) {
             case KEY_LEFT:
                 if (sendkey != 'r') {
@@ -145,7 +144,7 @@ void *snake_draw(void *arg) {
         }
 
         mvwprintw(self->score_win, 0, 1, "Score: %d", self->snakedata.score);
-        mvwprintw(self->score_win, 1, 1, "Time %d", self->snakedata.elapsed_time);
+        mvwprintw(self->score_win, 1, 1, "Time elapsed: %d", self->snakedata.elapsed_time);
         wrefresh(self->score_win);
         wrefresh(self->snake_win);
         usleep(200000);
