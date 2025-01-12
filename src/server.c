@@ -51,20 +51,28 @@ void server_destroy(Server *self) {
 }
 
 
-void server_newgame(Server *self) {
+void server_newgame(Server *self, int gameduration_secs, int gamewidth, int gameheight) {
     puts("server new game");
-    self->game = game_create(15);
+    self->game = game_create(gameduration_secs, gamewidth, gameheight);
     char *map = game_generatemap(self->game);
     puts("prvych 5 odoslanej mapy");
     printf("%s\n", map);
-    if (write(self->connect_socket, map, WIDTH * HEIGHT + 1) < 0) {
+    if (write(self->connect_socket, map, gamewidth * gameheight + 1) < 0) {
         perror("map send error");
     }
+    bool ispaused = false;
     char keytosend;
     while (game_getgameover(self->game) == 0) {
         read(self->connect_socket, &keytosend, sizeof(char));
-        game_setkey(self->game, keytosend);
-        game_logic(self->game);
+        if (keytosend == 'p') {
+            ispaused = true;
+        } else if (keytosend != 'r') {
+            ispaused = false;
+        }
+        if (!ispaused) {
+            game_setkey(self->game, keytosend);
+            game_logic(self->game);
+        }
         write(self->connect_socket, game_getsnakedataptr(self->game), sizeof(SnakeData));
         if (game_getgameover(self->game) == 1) {
             break;

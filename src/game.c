@@ -1,38 +1,43 @@
 #include "game.h"
 
 struct Game {
-    char map[HEIGHT * WIDTH + 1];
+    char map[MAXWIDTH * MAXHEIGHT + 1];
 	SnakeData snakeData1;
-    int max_seconds;
-    int elapsed_time;
     time_t start_time;
     time_t current_time;
+    int max_seconds;
+    int elapsed_time;
+    int gamewidth;
+    int gameheight;
     char key;
 };
 
-void game_init(Game *self, int max_seconds) {
+void game_init(Game *self, int max_seconds, int gamewidth, int gameheight) {
+    srand(time(NULL));
     self->max_seconds = max_seconds;
     self->elapsed_time = 0;
-    time(&self->start_time);
-
+    self->gamewidth = gamewidth;
+    self->gameheight = gameheight;
+    
     self->snakeData1.gameover = 0;
     self->snakeData1.score = 0;
     self->snakeData1.snaketail_len = 0;
-    self->snakeData1.x = WIDTH / 2;
-    self->snakeData1.y = HEIGHT / 2;
-    self->snakeData1.fruitx = rand() % WIDTH;
-    self->snakeData1.fruity = rand() % HEIGHT;
-    while (self->snakeData1.fruitx == 0) {
-        self->snakeData1.fruitx = rand() % WIDTH;
+    self->snakeData1.x = self->gamewidth / 2;
+    self->snakeData1.y = self->gameheight / 2;
+    self->snakeData1.fruitx = rand() % self->gamewidth;
+    self->snakeData1.fruity = rand() % self->gameheight;
+    while(self->snakeData1.fruitx == 0) {
+        self->snakeData1.fruitx = rand() % self->gamewidth;
     }
-    while (self->snakeData1.fruity == 0) {
-        self->snakeData1.fruity = rand() % HEIGHT;
+    while(self->snakeData1.fruity == 0) {
+        self->snakeData1.fruity = rand() % self->gameheight;
     }
+    time(&self->start_time);
 }
 
-Game *game_create(int max_seconds) {
+Game *game_create(int max_seconds, int gamewidth, int gameheight) {
     Game *self = malloc(sizeof(Game));
-    game_init(self, max_seconds);
+    game_init(self, max_seconds, gamewidth, gameheight);
     return self;
 }
 
@@ -90,12 +95,12 @@ void game_logic(Game *self) {
     }
     
     // ak je mimo mapy
-    if (self->snakeData1.x < 0 || self->snakeData1.x >= WIDTH || self->snakeData1.y < 0 || self->snakeData1.y >= HEIGHT) {
+    if (self->snakeData1.x < 0 || self->snakeData1.x >= self->gamewidth || self->snakeData1.y < 0 || self->snakeData1.y >= self->gameheight) {
         self->snakeData1.gameover = 1;
     }
     
     // kolizie mapa
-    if (self->map[self->snakeData1.y * WIDTH + self->snakeData1.x] == 'X') {
+    if (self->map[self->snakeData1.y * self->gamewidth + self->snakeData1.x] == 'X') {
         self->snakeData1.gameover = 1;
     }
     
@@ -110,9 +115,9 @@ void game_logic(Game *self) {
     // pridaj skore ak zjedol ovocie
     if (self->snakeData1.x == self->snakeData1.fruitx && self->snakeData1.y == self->snakeData1.fruity) {
         do {
-            self->snakeData1.fruitx = rand() % WIDTH;
-            self->snakeData1.fruity = rand() % HEIGHT;
-        } while (self->map[self->snakeData1.fruity * WIDTH + self->snakeData1.fruitx] == 'X');
+            self->snakeData1.fruitx = rand() % self->gamewidth;
+            self->snakeData1.fruity = rand() % self->gameheight;
+        } while (self->map[self->snakeData1.fruity * self->gamewidth + self->snakeData1.fruitx] == 'X');
         self->snakeData1.score += 10;
         self->snakeData1.snaketail_len++;
     }
@@ -137,12 +142,12 @@ void game_setelapsedtime(Game* self, int seconds) {
 
 char *game_generatemap(Game *self) {
     puts("generatemap");
-    memset(self->map, '.', HEIGHT * WIDTH);
-    int numOfObstacles = (HEIGHT * WIDTH) >> 5;
+    memset(self->map, '.', self->gameheight * self->gamewidth);
+    int numOfObstacles = (self->gameheight * self->gamewidth) >> 5;
     for (int i = 0; i < numOfObstacles; ++i) {
-        self->map[rand() % (HEIGHT * WIDTH)] = 'X';
+        self->map[rand() % (self->gameheight * self->gamewidth)] = 'X';
     }
-    self->map[HEIGHT * WIDTH] = '\0';
+    self->map[self->gameheight * self->gamewidth] = '\0';
     puts("return 5 odoslanej mapy");
     printf("%s\n", self->map);
     return self->map;
