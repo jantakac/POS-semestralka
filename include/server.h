@@ -16,5 +16,5 @@ typedef struct Server Server;
 void server_init(Server *self);
 Server *server_create();
 void server_destroy(Server *self);
-void server_newgame(Server *self);
+void server_newgame(Server *self, int gameduration_secs, int gamewidth, int gameheight);
 #endif
