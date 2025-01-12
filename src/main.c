@@ -2,7 +2,6 @@
 #include "client.h"
 #include "server.h"
 
-#define TIME_BETWEEN_FRAMES_30FPS 33 // cca 30fps, lower number more fps
 
 void main() {
     StartMenu *startmenu = startmenu_create();
