@@ -1,11 +1,13 @@
 #include "client.h"
 
 struct Client {
-    char map[HEIGHT * WIDTH + 1];
+    char map[MAXWIDTH * MAXHEIGHT + 1];
     SnakeData snakedata;
     WINDOW *snake_win;
     WINDOW *score_win;
     int client_socket;
+    int gameheight;
+    int gamewidth;
 };
 
 int client_connect(Client *self) {
@@ -13,7 +15,7 @@ int client_connect(Client *self) {
     struct sockaddr_in serv_addr;
 
     if ((self->client_socket = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        printf("\n Socket creation error \n");
+        perror("\n Socket creation error \n");
         return -1;
     }
 
@@ -21,11 +23,11 @@ int client_connect(Client *self) {
     serv_addr.sin_port = htons(PORT);
 
     if (inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr) <= 0) {
-        printf("\nInvalid address/ Address not supported \n");
+        perror("\nInvalid address / Address not supported \n");
         return -1;
     }
     if ((connect(self->client_socket, (struct sockaddr*)&serv_addr, sizeof(serv_addr))) < 0) {
-        printf("\nConnection Failed \n");
+        perror("\nConnection Failed \n");
         return -1;
     }
     return 0;
@@ -74,6 +76,9 @@ void *snakekey_send(void *arg) {
                     sendkey = 'd';
                 }
                 break;
+            case 'p':
+                sendkey = 'p';
+                break;
             default:
                 break;
         }
@@ -95,25 +100,25 @@ void *snake_draw(void *arg) {
     clear();
     curs_set(0);
     refresh();
-    self->snake_win = newwin(HEIGHT, WIDTH, 1, 1);
+    self->snake_win = newwin(self->gameheight, self->gamewidth, 1, 1);
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
     wclear(self->snake_win);
 
     // border okolo
-    WINDOW *border_win = newwin(HEIGHT + 2, WIDTH + 2, 0, 0);
+    WINDOW *border_win = newwin(self->gameheight + 2, self->gamewidth + 2, 0, 0);
     wclear(border_win);
     box(border_win, 0, 0);
     wrefresh(border_win);
     // endborder
 
-    self->score_win = newwin(3, WIDTH + 2, HEIGHT + 2, 0);
+    self->score_win = newwin(3, self->gamewidth + 2, self->gameheight + 2, 0);
     wclear(self->score_win);
     wrefresh(self->score_win);
     
-    for (int i = 0; i < WIDTH; ++i) {
-        for (int j = 0; j < HEIGHT; ++j) {
-            if (self->map[WIDTH * j + i] == 'X') {
+    for (int i = 0; i < self->gamewidth; ++i) {
+        for (int j = 0; j < self->gameheight; ++j) {
+            if (self->map[self->gamewidth * j + i] == 'X') {
                 mvwprintw(self->snake_win, j, i, "X");
             }
         }
@@ -132,8 +137,8 @@ void *snake_draw(void *arg) {
 
         if (self->snakedata.gameover > 0) {
             wclear(self->snake_win);
-            mvwprintw(self->snake_win, HEIGHT / 2, WIDTH / 2 - 5, "Game Over!");
-            mvwprintw(self->snake_win, HEIGHT / 2 + 1, WIDTH / 2 - 8, "Final score: %d", self->snakedata.score);
+            mvwprintw(self->snake_win, self->gameheight / 2, self->gamewidth / 2 - 5, "Game Over!");
+            mvwprintw(self->snake_win, self->gameheight / 2 + 1, self->gamewidth / 2 - 8, "Final score: %d", self->snakedata.score);
             wrefresh(self->snake_win);
             sleep(5);
             break;
@@ -163,15 +168,14 @@ void *snake_draw(void *arg) {
 }
 
 
-
-void client_newgame(Client *self) {
+void client_newgame(Client *self, int gameduration_secs, int gamewidth, int gameheight) {
     pid_t p = fork();
     if (p < 0) {
         perror("error fork");
         exit(EXIT_FAILURE);
     } else if (p == 0) {
         Server *server = server_create();
-        server_newgame(server);
+        server_newgame(server, gameduration_secs, gamewidth, gameheight);
         server_destroy(server);
     } else {
         puts("waiting for server");
@@ -180,7 +184,9 @@ void client_newgame(Client *self) {
             perror("connection failed");
             refresh();
         }
-        read(self->client_socket, self->map, HEIGHT * WIDTH + 1);
+        self->gamewidth = gamewidth;
+        self->gameheight = gameheight;
+        read(self->client_socket, self->map, gamewidth * gameheight + 1);
         puts("prvych 5 prijatej mapy");
         printf("%s\n", self->map);
         pthread_t thread_draw;

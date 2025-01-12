@@ -16,5 +16,5 @@ typedef struct Client Client;
 int client_connect(Client *self);
 Client *client_create();
 void client_destroy(Client *self);
-void client_newgame(Client *self);
+void client_newgame(Client *self, int gameduration_secs, int gamewidth, int gameheight);
 #endif
