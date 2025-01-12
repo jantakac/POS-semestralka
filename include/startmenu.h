@@ -17,7 +17,4 @@ char startmenu_getgamemode(StartMenu *self);
 int startmenu_getdimension(StartMenu *self);
 int startmenu_gettime(StartMenu *self);
 
-void set_startmenu_request(StartMenu *self, const char* name);
-void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color);
-
 #endif

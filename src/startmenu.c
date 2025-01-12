@@ -1,7 +1,5 @@
 #include "startmenu.h"
 
-
-
 struct StartMenu {
 	ITEM *startmenu_items[4];
 	ITEM *gamemenu_items[3];
@@ -28,6 +26,34 @@ struct StartMenu {
 	char gamemode_option;
 	
 };
+
+
+void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color) {
+	int length, x, y;
+	float temp;
+
+	if(win == NULL) {
+		win = stdscr;
+	}
+	getyx(win, y, x);
+	if(startx != 0) {
+		x = startx;
+	}
+	if(starty != 0) {
+		y = starty;
+	}
+	if(width == 0) {
+		width = 80;
+	}
+
+	length = strlen(string);
+	temp = (width - length)/ 2;
+	x = startx + (int)temp;
+	wattron(win, color);
+	mvwprintw(win, y, x, "%s", string);
+	wattroff(win, color);
+	refresh();
+}
 
 void set_startmenu_request(StartMenu *self, const char *name) {
 	if (strcmp(name, "New Game") == 0) {
@@ -208,36 +234,28 @@ void startmenu_init(StartMenu *self) {
 		}
 	}	
 menuloop_out:
-	startmenu_destroy(self);
+	unpost_menu(self->timemenu);
+	unpost_menu(self->dimensionmenu);
+	unpost_menu(self->gamemenu);
+	unpost_menu(self->startmenu);
+	free_menu(self->timemenu);
+	free_menu(self->dimensionmenu);
+	free_menu(self->gamemenu);
+	free_menu(self->startmenu);
+	for(self->i = 0; self->i < self->n_timemenu_items; ++(self->i)) {
+		free_item(self->timemenu_items[self->i]);
+	}
+	for(self->i = 0; self->i < self->n_dimensionmenu_items; ++(self->i)) {
+		free_item(self->dimensionmenu_items[self->i]);
+	}
+	for(self->i = 0; self->i < self->n_gamemenu_items; ++(self->i)) {
+		free_item(self->gamemenu_items[self->i]);
+	}
+	for(self->i = 0; self->i < self->n_startmenu_items; ++(self->i)) {
+		free_item(self->startmenu_items[self->i]);
+	}
+	endwin();
 }
-
-void print_in_middle(WINDOW *win, int starty, int startx, int width, char *string, chtype color) {
-	int length, x, y;
-	float temp;
-
-	if(win == NULL) {
-		win = stdscr;
-	}
-	getyx(win, y, x);
-	if(startx != 0) {
-		x = startx;
-	}
-	if(starty != 0) {
-		y = starty;
-	}
-	if(width == 0) {
-		width = 80;
-	}
-
-	length = strlen(string);
-	temp = (width - length)/ 2;
-	x = startx + (int)temp;
-	wattron(win, color);
-	mvwprintw(win, y, x, "%s", string);
-	wattroff(win, color);
-	refresh();
-}
-
 
 StartMenu *startmenu_create()
 {
@@ -249,27 +267,6 @@ StartMenu *startmenu_create()
 void startmenu_destroy(StartMenu *self)
 {
 	if (self) {
-		unpost_menu(self->timemenu);
-		unpost_menu(self->dimensionmenu);
-		unpost_menu(self->gamemenu);
-		unpost_menu(self->startmenu);
-		free_menu(self->timemenu);
-		free_menu(self->dimensionmenu);
-		free_menu(self->gamemenu);
-		free_menu(self->startmenu);
-		for(self->i = 0; self->i < self->n_timemenu_items; ++(self->i)) {
-			free_item(self->timemenu_items[self->i]);
-		}
-		for(self->i = 0; self->i < self->n_dimensionmenu_items; ++(self->i)) {
-			free_item(self->dimensionmenu_items[self->i]);
-		}
-		for(self->i = 0; self->i < self->n_gamemenu_items; ++(self->i)) {
-			free_item(self->gamemenu_items[self->i]);
-		}
-		for(self->i = 0; self->i < self->n_startmenu_items; ++(self->i)) {
-			free_item(self->startmenu_items[self->i]);
-		}
-		endwin();
 		free(self);
 	}
 }
